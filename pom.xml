@@ -108,7 +108,7 @@
 			<id>central</id>
 			<name>Maven Repository Switchboard</name>
 			<layout>default</layout>
-			<url>http://localhost:8081/nexus/content/repositories/central/</url>
+			<url>http://192.168.0.131:8081/nexus/content/repositories/central/</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -117,18 +117,18 @@
 			<id>public</id>
 			<name>Maven Repository public</name>
 			<layout>default</layout>
-			<url>http://localhost:8081/nexus/content/groups/public/</url>
+			<url>http://192.168.0.131:8081/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
-			<url>http://localhost:8081/nexus/content/repositories/releases</url>
+			<url>http://192.168.0.131:8081/nexus/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
-			<url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+			<url>http://192.168.0.131:8081/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
