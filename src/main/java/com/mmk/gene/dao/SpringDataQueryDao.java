@@ -1,5 +1,6 @@
 package com.mmk.gene.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -28,6 +29,14 @@ public interface SpringDataQueryDao<T> extends BasePagingQueryDao<T> {
 	 * @return 分页结果 
 	 */
 	Page<T> queryByJpql(String ql,Map<String, Object> params,Pageable  pageable);
+	/**
+	 * 根据查询语言和绑定的参数分页返回数据
+	 * @param ql 查询JPQL语句，
+	 * @param params 查询参数
+	 * @param pageable 分页参数
+	 * @return 数组分页结果
+	 */
+	Page<List<Object>> queryArrayByJpql(String ql,Map<String, Object> params,Pageable  pageable);
 	
 	/**
 	 * 使用本地查询语言SQL进行查询

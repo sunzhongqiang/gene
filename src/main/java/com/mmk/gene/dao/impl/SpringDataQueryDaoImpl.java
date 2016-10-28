@@ -66,6 +66,14 @@ public class SpringDataQueryDaoImpl<T> extends BasePagingQueryDaoImpl<T> impleme
 		Page<T> page = new PageImpl<T>(contents,pageable,total);
 		return page;
 	}
+	
+	@Override
+	public Page<List<Object>> queryArrayByJpql(String ql, Map<String, Object> params, Pageable pageable) {
+		Long total = countByJpql(ql, params);
+		List<List<Object>> contents = queryArrayByJpql(ql, params,pageable.getOffset(),pageable.getPageSize());
+		Page<List<Object>> page = new PageImpl<List<Object>>(contents,pageable,total);
+		return page;
+	}
 
 	@Override
 	public Page<T> queryBySql(String ql, Map<Integer, Object> params,Pageable pageable) {
@@ -98,6 +106,8 @@ public class SpringDataQueryDaoImpl<T> extends BasePagingQueryDaoImpl<T> impleme
 		Page<T> page = new PageImpl<T>(result, pageable, total);
 		return page;
 	}
+
+	
 
 
 }
