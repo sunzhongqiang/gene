@@ -365,4 +365,17 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 	}
 
 
+
+	@Override
+	public List<List<Object>> queryArrayByJpql(String ql, Map<String, Object> params) {
+		Query query =   entityManager.createQuery(ql);
+		if(params!=null){
+			for(String key : params.keySet()) {
+				query.setParameter(key.replace(".", "_"), params.get(key));
+			}
+		}
+		return query.getResultList();
+	}
+
+
 }

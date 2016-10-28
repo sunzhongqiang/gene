@@ -32,6 +32,16 @@ public interface BasePagingQueryDao<T> extends BaseQueryDao<T> {
 	List<T> queryByJpql(String ql,Map<String, Object> params,Long start,Long limit);
 	
 	/**
+	 * 根据查询JPQL，带参数，获取数组列表
+	 * @param ql  jpql的查询
+	 * @param params 参数
+	 * @param start 分页开始
+	 *  @param limit 返回结果数
+	 * @return 符合条件的数组列表
+	 */
+	List<List<Object>> queryArrayByJpql(String ql,Map<String, Object> params,int start,int limit);
+	
+	/**
 	 * 根据sql和绑定参数获取查询列表，params可以为null 
 	 * @param ql 查询语句为sql
 	 * @param params 参数化查询参数，为位置参数
