@@ -36,7 +36,7 @@ public interface SpringDataQueryDao<T> extends BasePagingQueryDao<T> {
 	 * @param pageable 分页参数
 	 * @return 数组分页结果
 	 */
-	Page<List<Object>> queryArrayByJpql(String ql,Map<String, Object> params,Pageable  pageable);
+	Page queryArrayByJpql(String ql,Map<String, Object> params,Pageable  pageable);
 	
 	/**
 	 * 使用本地查询语言SQL进行查询

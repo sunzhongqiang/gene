@@ -68,10 +68,10 @@ public class SpringDataQueryDaoImpl<T> extends BasePagingQueryDaoImpl<T> impleme
 	}
 	
 	@Override
-	public Page<List<Object>> queryArrayByJpql(String ql, Map<String, Object> params, Pageable pageable) {
+	public Page queryArrayByJpql(String ql, Map<String, Object> params, Pageable pageable) {
 		Long total = countByJpql(ql, params);
-		List<List<Object>> contents = queryArrayByJpql(ql, params,pageable.getOffset(),pageable.getPageSize());
-		Page<List<Object>> page = new PageImpl<List<Object>>(contents,pageable,total);
+		List contents = queryArrayByJpql(ql, params,pageable.getOffset(),pageable.getPageSize());
+		Page page = new PageImpl(contents,pageable,total);
 		return page;
 	}
 

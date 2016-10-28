@@ -187,7 +187,7 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 	}
 
 	@Override
-	public List<List<Object>> queryArrayByJpql(String ql, Map<String, Object> params, int start, int limit) {
+	public List queryArrayByJpql(String ql, Map<String, Object> params, int start, int limit) {
 		Query query =   entityManager.createQuery(ql);
 		if(params!=null){
 			for(String key : params.keySet()) {

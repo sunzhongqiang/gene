@@ -39,7 +39,7 @@ public interface BasePagingQueryDao<T> extends BaseQueryDao<T> {
 	 *  @param limit 返回结果数
 	 * @return 符合条件的数组列表
 	 */
-	List<List<Object>> queryArrayByJpql(String ql,Map<String, Object> params,int start,int limit);
+	List queryArrayByJpql(String ql,Map<String, Object> params,int start,int limit);
 	
 	/**
 	 * 根据sql和绑定参数获取查询列表，params可以为null 
