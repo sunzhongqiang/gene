@@ -309,7 +309,7 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 			jpql = StringUtils.trimToEmpty(jpql);
 			jpql = jpql.replaceAll("(?i)fetch", "");
 			log.debug("去掉fetch:"+jpql);
-			jpql = jpql.replaceFirst("(?i) order by .*", "");  //去掉orderby
+			jpql = jpql.replaceFirst("(?i) order(\\s+)by(\\s+).*", "");  //去掉orderby
 			log.debug("去掉order by的jqpl:"+jpql);
 			Pattern pattern = Pattern.compile("select(\\s+)(.+)(\\s+)from(\\s+)([\\w\\.]+)(\\s+)(\\w+)(.*)",Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(jpql);
