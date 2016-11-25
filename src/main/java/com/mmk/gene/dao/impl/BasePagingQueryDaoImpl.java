@@ -1,10 +1,13 @@
 package com.mmk.gene.dao.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.SQLQuery;
@@ -60,7 +63,18 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 				persistentClass);
 		if (params != null) {
 			for (String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		// 设置分页
@@ -76,8 +90,7 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 	}
 
 	@Override
-	public List<T> queryByJpql(String ql, Map<String, Object> params,
-			Long start, Long limit) {
+	public List<T> queryByJpql(String ql, Map<String, Object> params,Long start, Long limit) {
 		log.debug("ql:" + ql);
 		try {
 			TypedQuery<T> query = entityManager
@@ -85,9 +98,18 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 			if (params != null) {
 				// 为sql赋值
 				for (String key : params.keySet()) {
-					log.debug("jpql赋值[" + key.replace(".", "_") + "："
-							+ params.get(key) + "]");
-					query.setParameter(key.replace(".", "_"), params.get(key));
+					String keyString = key.replace(".", "_");
+					Object value = params.get(key);
+					log.debug("jpql赋值[" + keyString + "："+ value + "]");
+					if(value instanceof Date){
+						Date date = (Date) value;
+						query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+					}else if(value instanceof Calendar){
+						Calendar date = (Calendar) value;
+						query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+					}else{
+						query.setParameter(keyString, value);
+					}
 				}
 			}
 			// 设置分页
@@ -114,7 +136,17 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 		Query query = entityManager.createNativeQuery(ql, persistentClass);
 		if (params != null) {
 			for (Integer key : params.keySet()) {
-				query.setParameter(key, params.get(key));
+				Object value = params.get(key);
+				log.debug("sql赋值[" + key + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(key, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(key, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(key, value);
+				}
 			}
 		}
 		// 设置分页
@@ -136,7 +168,18 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 		Query query = entityManager.createQuery(ql);
 		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		for (String key : params.keySet()) {
-			query.setParameter(key.replace(".", "_"), params.get(key));
+			String keyString = key.replace(".", "_");
+			Object value = params.get(key);
+			log.debug("jpql赋值[" + keyString + "："+ value + "]");
+			if(value instanceof Date){
+				Date date = (Date) value;
+				query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+			}else if(value instanceof Calendar){
+				Calendar date = (Calendar) value;
+				query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+			}else{
+				query.setParameter(keyString, value);
+			}
 		}
 
 		// 设置分页
@@ -158,7 +201,17 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 		Query query = entityManager.createNativeQuery(sql);
 		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		for (Integer key : params.keySet()) {
-			query.setParameter(key, params.get(key));
+			Object value = params.get(key);
+			log.debug("jpql赋值[" + key + "："+ value + "]");
+			if(value instanceof Date){
+				Date date = (Date) value;
+				query.setParameter(key, date ,TemporalType.TIMESTAMP);
+			}else if(value instanceof Calendar){
+				Calendar date = (Calendar) value;
+				query.setParameter(key, date,TemporalType.TIMESTAMP);
+			}else{
+				query.setParameter(key, value);
+			}
 		}
 
 		// 设置分页
@@ -178,7 +231,18 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 		TypedQuery<T> query = entityManager.createQuery(ql, resultType);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		query.setFirstResult(start);
@@ -191,7 +255,18 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 		Query query =   entityManager.createQuery(ql);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		query.setFirstResult(start);
