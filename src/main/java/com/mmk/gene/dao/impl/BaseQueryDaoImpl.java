@@ -220,6 +220,7 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		log.debug("jpql:"+jpql);
 		if(StringUtils.isNotBlank(jpql)){
 			log.debug("预处理jqpl");
+			jpql = StringUtils.trimToEmpty(jpql);
 			jpql = jpql.replaceAll("(?i)fetch", "");
 			log.debug("去掉fetch:"+jpql);
 			jpql = jpql.replaceFirst("(?i) order by .*", "");  //去掉orderby
