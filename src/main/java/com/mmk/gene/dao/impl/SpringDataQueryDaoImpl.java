@@ -1,9 +1,12 @@
 package com.mmk.gene.dao.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import org.springframework.data.domain.Page;
@@ -47,7 +50,18 @@ public class SpringDataQueryDaoImpl<T> extends BasePagingQueryDaoImpl<T> impleme
 		TypedQuery<T> query = entityManager.createQuery(ql.toString(), persistentClass);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		query.setFirstResult(pageable.getOffset());

@@ -1,5 +1,7 @@
 package com.mmk.gene.dao.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -8,6 +10,7 @@ import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
@@ -70,7 +73,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		query.setMaxResults(1);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		List<T> result = query.getResultList();
@@ -95,7 +109,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		TypedQuery<T> query = entityManager.createQuery(ql.toString(), persistentClass);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		return query.getResultList();
@@ -106,7 +131,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		TypedQuery<T> query =   entityManager.createQuery(ql, this.persistentClass);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		return query.getResultList();
@@ -118,7 +154,17 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		Query query =   entityManager.createNativeQuery(ql, persistentClass);
 		if(params!=null){
 			for(Integer key : params.keySet()) {
-				query.setParameter(key, params.get(key));
+				Object value = params.get(key);
+				log.debug("sql赋值["+key+"："+params.get(key)+"]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(key, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(key, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(key, value);
+				}
 			}
 		}
 		return query.getResultList();
@@ -130,7 +176,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		Query query = entityManager.createQuery(ql);
 		query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		for (String key : params.keySet()) {
-			query.setParameter(key.replace(".", "_"), params.get(key));
+			String keyString = key.replace(".", "_");
+			Object value = params.get(key);
+			log.debug("jpql赋值[" + keyString + "："+ value + "]");
+			if(value instanceof Date){
+				Date date = (Date) value;
+				query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+			}else if(value instanceof Calendar){
+				Calendar date = (Calendar) value;
+				query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+			}else{
+				query.setParameter(keyString, value);
+			}
 		}
 		return query.getResultList();
 	}
@@ -142,7 +199,17 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		
 		for (Integer key : params.keySet()) {
-			query.setParameter(key, params.get(key));
+			Object value = params.get(key);
+			log.debug("sql赋值["+key+"："+params.get(key)+"]");
+			if(value instanceof Date){
+				Date date = (Date) value;
+				query.setParameter(key, date ,TemporalType.TIMESTAMP);
+			}else if(value instanceof Calendar){
+				Calendar date = (Calendar) value;
+				query.setParameter(key, date,TemporalType.TIMESTAMP);
+			}else{
+				query.setParameter(key, value);
+			}
 		}
 		return query.getResultList();
 	}
@@ -167,8 +234,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 			//为sql赋值
 			if(params!=null){
 				for (String key : params.keySet()) {
-					log.debug("jpql赋值["+key.replace(".", "_")+"："+params.get(key)+"]");
-					query.setParameter(key.replace(".", "_"), params.get(key));
+					String keyString = key.replace(".", "_");
+					Object value = params.get(key);
+					log.debug("jpql赋值[" + keyString + "："+ value + "]");
+					if(value instanceof Date){
+						Date date = (Date) value;
+						query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+					}else if(value instanceof Calendar){
+						Calendar date = (Calendar) value;
+						query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+					}else{
+						query.setParameter(keyString, value);
+					}
 				}
 			}
 			Long total = query.getSingleResult();
@@ -191,8 +268,17 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 			//为sql赋值
 			if(params!=null){
 				for (Integer key : params.keySet()) {
+					Object value = params.get(key);
 					log.debug("sql赋值["+key+"："+params.get(key)+"]");
-					query.setParameter(key, params.get(key));
+					if(value instanceof Date){
+						Date date = (Date) value;
+						query.setParameter(key, date ,TemporalType.TIMESTAMP);
+					}else if(value instanceof Calendar){
+						Calendar date = (Calendar) value;
+						query.setParameter(key, date,TemporalType.TIMESTAMP);
+					}else{
+						query.setParameter(key, value);
+					}
 				}
 			}
 			String total = query.getSingleResult().toString();
@@ -250,7 +336,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		TypedQuery<T> query = entityManager.createQuery(qlString, resultClass);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		return query.getResultList();
@@ -302,7 +399,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		
@@ -327,7 +435,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		return query.getResultList();
@@ -347,7 +466,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		Query query = entityManager.createQuery(updateJpql);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		return query.executeUpdate();
@@ -360,7 +490,17 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 	public int executeNativeUpdate(String updateJpql, Map<Integer, Object> params) {
 		Query query = entityManager.createNativeQuery(updateJpql);
 		for (Integer key : params.keySet()) {
-			query.setParameter(key, params.get(key));
+			Object value = params.get(key);
+			log.debug("jpql赋值[" + key + "："+ value + "]");
+			if(value instanceof Date){
+				Date date = (Date) value;
+				query.setParameter(key, date ,TemporalType.TIMESTAMP);
+			}else if(value instanceof Calendar){
+				Calendar date = (Calendar) value;
+				query.setParameter(key, date,TemporalType.TIMESTAMP);
+			}else{
+				query.setParameter(key, value);
+			}
 		}
 		return query.executeUpdate();
 	}
@@ -372,7 +512,18 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		Query query =   entityManager.createQuery(ql);
 		if(params!=null){
 			for(String key : params.keySet()) {
-				query.setParameter(key.replace(".", "_"), params.get(key));
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 		return query.getResultList();
