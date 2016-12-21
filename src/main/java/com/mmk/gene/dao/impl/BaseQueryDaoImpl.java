@@ -392,7 +392,7 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		sb.append( this.persistentClass.getName() );
 		sb.append(" model where 1=1 ");
 		for (String key : params.keySet()) {
-			sb.append("model.").append(key).append(" = :").append(key);
+			sb.append(" and model.").append(key).append(" = :").append(key);
 		}
 		
 		TypedQuery<T> query = entityManager.createQuery(sb.toString(),persistentClass);
@@ -428,7 +428,7 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 		sb.append( this.persistentClass.getName() );
 		sb.append(" model where 1=1 ");
 		for (String key : params.keySet()) {
-			sb.append("model.").append(key).append(" = :").append(key);
+			sb.append(" and model.").append(key).append(" = :").append(key);
 		}
 		
 		TypedQuery<T> query = entityManager.createQuery(sb.toString(),persistentClass);
