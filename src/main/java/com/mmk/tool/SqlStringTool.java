@@ -1,8 +1,5 @@
 package com.mmk.tool;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 /**
  * 
@@ -12,20 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 public class SqlStringTool {
 	
 	/**
-	 * 判断是否字母数字组合长度2-20
-	 * @param name
-	 * @return
+	 * 对sql进行处理：全模糊查询，
+	 * @param queryString
+	 * @return %查询字符%
 	 */
-	public static boolean isCommonName(String name) {
-		Pattern pattern = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]{2,20}$");//以字母开头，
-//		Pattern pattern = Pattern.compile("[\u4e00-\u9fa5]");
-		Matcher matcher = pattern.matcher(name);
-		if (matcher.find()) {
-			return true;
-		}
-		return false;
-	}
-	
 	public static String anyMatch(String queryString){
 		if(StringUtils.isNoneBlank(queryString)){
 			return "%".concat(queryString.trim().concat("%"));
@@ -33,12 +20,23 @@ public class SqlStringTool {
 		return "%%";
 	}
 	
+	/**
+	 * 对sql进行处理：左模糊查询
+	 * @param queryString
+	 * @return %查询字符
+	 */
 	public static String leftMatch(String queryString){
 		if(StringUtils.isNoneBlank(queryString)){
 			return "%".concat(queryString.trim());
 		}
 		return "%";
 	}
+	
+	/**
+	 * 对sql进行处理：右模糊查询
+	 * @param queryString
+	 * @return  查询字符%
+	 */
 	public static String rightMatch(String queryString){
 		if(StringUtils.isNoneBlank(queryString)){
 			return queryString.trim().concat("%");
