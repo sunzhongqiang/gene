@@ -64,7 +64,7 @@ public class SpringDataQueryDaoImpl<T> extends BasePagingQueryDaoImpl<T> impleme
 				}
 			}
 		}
-		query.setFirstResult(pageable.getOffset());
+		query.setFirstResult(Long.valueOf(pageable.getOffset()).intValue());
 		query.setMaxResults(pageable.getPageSize());
 		
 		List<T> content = query.getResultList();
@@ -84,7 +84,9 @@ public class SpringDataQueryDaoImpl<T> extends BasePagingQueryDaoImpl<T> impleme
 	@Override
 	public Page queryArrayByJpql(String ql, Map<String, Object> params, Pageable pageable) {
 		Long total = countByJpql(ql, params);
-		List contents = queryArrayByJpql(ql, params,pageable.getOffset(),pageable.getPageSize());
+		int offset = Long.valueOf(pageable.getOffset()).intValue();
+		int pageSize = pageable.getPageSize();
+		List contents = queryArrayByJpql(ql, params,offset,pageSize);
 		Page page = new PageImpl(contents,pageable,total);
 		return page;
 	}

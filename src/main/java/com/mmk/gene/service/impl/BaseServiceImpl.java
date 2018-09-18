@@ -26,7 +26,7 @@ public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T
 
 	@Override
 	public boolean exists(ID id) {
-		return repository.exists(id);
+		return repository.existsById(id);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T
 
 	@Override
 	public T find(ID id) {
-		return repository.findOne(id);
+		return repository.findById(id).get();
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T
 	@Transactional
 	@Override
 	public <S extends T> List<S> save(Iterable<S> entities) {
-		return repository.save(entities);
+		return repository.saveAll(entities);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T
 
 	@Override
 	public Iterable<T> findAll(Iterable<ID> ids) {
-		return repository.findAll(ids);
+		return repository.findAllById(ids);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T
 
 	@Override
 	public void delete(Iterable<? extends T> entities) {
-		repository.delete(entities);
+		repository.deleteAll(entities);
 	}
 
 	@Override
