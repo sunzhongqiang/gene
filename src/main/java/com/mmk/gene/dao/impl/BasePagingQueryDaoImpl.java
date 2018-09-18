@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
-import org.hibernate.SQLQuery;
+import org.hibernate.internal.QueryImpl;
 import org.hibernate.transform.Transformers;
 
 import com.mmk.gene.dao.BasePagingQueryDao;
@@ -166,7 +166,7 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 	public List<Map<String, Object>> queryFieldsByJpql(String ql,
 			Map<String, Object> params, Long start, Long limit) {
 		Query query = entityManager.createQuery(ql);
-		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
+		query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		for (String key : params.keySet()) {
 			String keyString = key.replace(".", "_");
 			Object value = params.get(key);
@@ -199,7 +199,7 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 	public List<Map<String, Object>> queryFieldsBySql(String sql,
 			Map<Integer, Object> params, Long start, Long limit) {
 		Query query = entityManager.createNativeQuery(sql);
-		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
+		query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		for (Integer key : params.keySet()) {
 			Object value = params.get(key);
 			log.debug("jpql赋值[" + key + "："+ value + "]");

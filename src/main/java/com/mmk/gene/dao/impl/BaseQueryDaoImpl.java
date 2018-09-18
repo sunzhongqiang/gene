@@ -16,7 +16,6 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.SQLQuery;
 import org.hibernate.internal.QueryImpl;
 import org.hibernate.transform.Transformers;
 
@@ -196,7 +195,7 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 	@Override
 	public List<Map<String, Object>> queryFieldsBySql(String sql,Map<Integer, Object> params) {
 		Query query = entityManager.createNativeQuery(sql);
-		query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
+		query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
 		
 		for (Integer key : params.keySet()) {
 			Object value = params.get(key);
