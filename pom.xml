@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -41,7 +42,7 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
-		
+
 	</dependencies>
 
 	<build>
@@ -79,30 +80,26 @@
 	<!-- 公共项目资源库 -->
 	<repositories>
 		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<layout>default</layout>
-			<url>http://192.168.2.122:8081/nexus/content/repositories/central/</url>
+			<id>lcdt</id>
+			<name>lcdt repo</name>
+			<url>http://101.200.215.10:8083/repository/maven-public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
-		<repository>
-			<id>public</id>
-			<name>Maven Repository public</name>
-			<layout>default</layout>
-			<url>http://192.168.2.122:8081/nexus/content/groups/public/</url>
-
-		</repository>
-		
-		
 	</repositories>
 
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
-			<url>http://192.168.2.122:8081/nexus/content/repositories/releases/</url>
+			<url>http://101.200.215.10:8083/repository/maven-releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
-			<url>http://192.168.2.122:8081/nexus/content/repositories/snapshots/</url>
+			<url>http://101.200.215.10:8083/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
