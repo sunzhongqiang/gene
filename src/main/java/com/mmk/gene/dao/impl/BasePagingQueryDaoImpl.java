@@ -10,26 +10,30 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
-import org.hibernate.SQLQuery;
+import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.query.internal.QueryImpl;
 import org.hibernate.transform.Transformers;
 
 import com.mmk.gene.dao.BasePagingQueryDao;
+
 /**
  * 接口 {@link BasePagingQueryDao} 的具体实现类
+ * 
  * @author 孙中强
  *
- * @param <T> 泛型：要对哪一个实体类进行分页查询
+ * @param <T>
+ *            泛型：要对哪一个实体类进行分页查询
  */
-public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
-		BasePagingQueryDao<T> {
+public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements BasePagingQueryDao<T> {
 
 	public final static Long DEFAULT_START = 0l;
 	public final static Long DEFAULT_LIMIT = 10l;
 
 	/**
-	 * 构造基本 的分页查询类      
-	 * @param persistentClass 要查询的实体
+	 * 构造基本 的分页查询类
+	 * 
+	 * @param persistentClass
+	 *            要查询的实体
 	 */
 	public BasePagingQueryDaoImpl(Class<T> persistentClass) {
 		super(persistentClass);
@@ -37,11 +41,13 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 
 	/**
 	 * 构造基本的分页查询类
-	 * @param persistentClass 查询实体
-	 * @param entityManager 实体管理类
+	 * 
+	 * @param persistentClass
+	 *            查询实体
+	 * @param entityManager
+	 *            实体管理类
 	 */
-	public BasePagingQueryDaoImpl(Class<T> persistentClass,
-			EntityManager entityManager) {
+	public BasePagingQueryDaoImpl(Class<T> persistentClass, EntityManager entityManager) {
 		super(persistentClass, entityManager);
 	}
 
@@ -60,20 +66,19 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 			}
 		}
 		log.debug("ql:" + ql);
-		TypedQuery<T> query = entityManager.createQuery(ql.toString(),
-				persistentClass);
+		TypedQuery<T> query = entityManager.createQuery(ql.toString(), persistentClass);
 		if (params != null) {
 			for (String key : params.keySet()) {
 				String keyString = key.replace(".", "_");
 				Object value = params.get(key);
-				log.debug("jpql赋值[" + keyString + "："+ value + "]");
-				if(value instanceof Date){
+				log.debug("jpql赋值[" + keyString + "：" + value + "]");
+				if (value instanceof Date) {
 					Date date = (Date) value;
-					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
-				}else if(value instanceof Calendar){
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else if (value instanceof Calendar) {
 					Calendar date = (Calendar) value;
-					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
-				}else{
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else {
 					query.setParameter(keyString, value);
 				}
 			}
@@ -91,24 +96,23 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 	}
 
 	@Override
-	public List<T> queryByJpql(String ql, Map<String, Object> params,Long start, Long limit) {
+	public List<T> queryByJpql(String ql, Map<String, Object> params, Long start, Long limit) {
 		log.debug("ql:" + ql);
 		try {
-			TypedQuery<T> query = entityManager
-					.createQuery(ql, persistentClass);
+			TypedQuery<T> query = entityManager.createQuery(ql, persistentClass);
 			if (params != null) {
 				// 为sql赋值
 				for (String key : params.keySet()) {
 					String keyString = key.replace(".", "_");
 					Object value = params.get(key);
-					log.debug("jpql赋值[" + keyString + "："+ value + "]");
-					if(value instanceof Date){
+					log.debug("jpql赋值[" + keyString + "：" + value + "]");
+					if (value instanceof Date) {
 						Date date = (Date) value;
-						query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
-					}else if(value instanceof Calendar){
+						query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+					} else if (value instanceof Calendar) {
 						Calendar date = (Calendar) value;
-						query.setParameter(keyString, date,TemporalType.TIMESTAMP);
-					}else{
+						query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+					} else {
 						query.setParameter(keyString, value);
 					}
 				}
@@ -132,20 +136,19 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> queryBySql(String ql, Map<Integer, Object> params,
-			Long start, Long limit) {
+	public List<T> queryBySql(String ql, Map<Integer, Object> params, Long start, Long limit) {
 		Query query = entityManager.createNativeQuery(ql, persistentClass);
 		if (params != null) {
 			for (Integer key : params.keySet()) {
 				Object value = params.get(key);
-				log.debug("sql赋值[" + key + "："+ value + "]");
-				if(value instanceof Date){
+				log.debug("sql赋值[" + key + "：" + value + "]");
+				if (value instanceof Date) {
 					Date date = (Date) value;
-					query.setParameter(key, date ,TemporalType.TIMESTAMP);
-				}else if(value instanceof Calendar){
+					query.setParameter(key, date, TemporalType.TIMESTAMP);
+				} else if (value instanceof Calendar) {
 					Calendar date = (Calendar) value;
-					query.setParameter(key, date,TemporalType.TIMESTAMP);
-				}else{
+					query.setParameter(key, date, TemporalType.TIMESTAMP);
+				} else {
 					query.setParameter(key, value);
 				}
 			}
@@ -164,22 +167,23 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Map<String, Object>> queryFieldsByJpql(String ql,
-			Map<String, Object> params, Long start, Long limit) {
+	public List<Map<String, Object>> queryFieldsByJpql(String ql, Map<String, Object> params, Long start, Long limit) {
 		Query query = entityManager.createQuery(ql);
-		query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
-		for (String key : params.keySet()) {
-			String keyString = key.replace(".", "_");
-			Object value = params.get(key);
-			log.debug("jpql赋值[" + keyString + "："+ value + "]");
-			if(value instanceof Date){
-				Date date = (Date) value;
-				query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
-			}else if(value instanceof Calendar){
-				Calendar date = (Calendar) value;
-				query.setParameter(keyString, date,TemporalType.TIMESTAMP);
-			}else{
-				query.setParameter(keyString, value);
+		query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		if(params != null) {
+			for (String key : params.keySet()) {
+				String keyString = key.replace(".", "_");
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + keyString + "：" + value + "]");
+				if (value instanceof Date) {
+					Date date = (Date) value;
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else if (value instanceof Calendar) {
+					Calendar date = (Calendar) value;
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else {
+					query.setParameter(keyString, value);
+				}
 			}
 		}
 
@@ -197,21 +201,22 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Map<String, Object>> queryFieldsBySql(String sql,
-			Map<Integer, Object> params, Long start, Long limit) {
+	public List<Map<String, Object>> queryFieldsBySql(String sql, Map<Integer, Object> params, Long start, Long limit) {
 		Query query = entityManager.createNativeQuery(sql);
-		query.unwrap(QueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);  
-		for (Integer key : params.keySet()) {
-			Object value = params.get(key);
-			log.debug("jpql赋值[" + key + "："+ value + "]");
-			if(value instanceof Date){
-				Date date = (Date) value;
-				query.setParameter(key, date ,TemporalType.TIMESTAMP);
-			}else if(value instanceof Calendar){
-				Calendar date = (Calendar) value;
-				query.setParameter(key, date,TemporalType.TIMESTAMP);
-			}else{
-				query.setParameter(key, value);
+		query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		if (params != null) {
+			for (Integer key : params.keySet()) {
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + key + "：" + value + "]");
+				if (value instanceof Date) {
+					Date date = (Date) value;
+					query.setParameter(key, date, TemporalType.TIMESTAMP);
+				} else if (value instanceof Calendar) {
+					Calendar date = (Calendar) value;
+					query.setParameter(key, date, TemporalType.TIMESTAMP);
+				} else {
+					query.setParameter(key, value);
+				}
 			}
 		}
 
@@ -228,20 +233,20 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 	}
 
 	@Override
-	public List<T> query(String ql, Class<T> resultType,Map<String,Object> params, int start, int limit) {
+	public List<T> query(String ql, Class<T> resultType, Map<String, Object> params, int start, int limit) {
 		TypedQuery<T> query = entityManager.createQuery(ql, resultType);
-		if(params!=null){
-			for(String key : params.keySet()) {
+		if (params != null) {
+			for (String key : params.keySet()) {
 				String keyString = key.replace(".", "_");
 				Object value = params.get(key);
-				log.debug("jpql赋值[" + keyString + "："+ value + "]");
-				if(value instanceof Date){
+				log.debug("jpql赋值[" + keyString + "：" + value + "]");
+				if (value instanceof Date) {
 					Date date = (Date) value;
-					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
-				}else if(value instanceof Calendar){
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else if (value instanceof Calendar) {
 					Calendar date = (Calendar) value;
-					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
-				}else{
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else {
 					query.setParameter(keyString, value);
 				}
 			}
@@ -253,19 +258,19 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 
 	@Override
 	public List queryArrayByJpql(String ql, Map<String, Object> params, int start, int limit) {
-		Query query =   entityManager.createQuery(ql);
-		if(params!=null){
-			for(String key : params.keySet()) {
+		Query query = entityManager.createQuery(ql);
+		if (params != null) {
+			for (String key : params.keySet()) {
 				String keyString = key.replace(".", "_");
 				Object value = params.get(key);
-				log.debug("jpql赋值[" + keyString + "："+ value + "]");
-				if(value instanceof Date){
+				log.debug("jpql赋值[" + keyString + "：" + value + "]");
+				if (value instanceof Date) {
 					Date date = (Date) value;
-					query.setParameter(keyString, date ,TemporalType.TIMESTAMP);
-				}else if(value instanceof Calendar){
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else if (value instanceof Calendar) {
 					Calendar date = (Calendar) value;
-					query.setParameter(keyString, date,TemporalType.TIMESTAMP);
-				}else{
+					query.setParameter(keyString, date, TemporalType.TIMESTAMP);
+				} else {
 					query.setParameter(keyString, value);
 				}
 			}
@@ -274,7 +279,5 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements
 		query.setMaxResults(limit);
 		return query.getResultList();
 	}
-
-	
 
 }
