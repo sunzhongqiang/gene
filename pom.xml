@@ -6,6 +6,7 @@
 
 	<groupId>com.mmk</groupId>
 	<artifactId>gene</artifactId>
+	<version>2.1.1.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>gene</name>
@@ -18,7 +19,7 @@
 				<!-- Import dependency management from Spring Boot -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>2.0.5.RELEASE</version>
+				<version>2.1.1.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -103,5 +104,5 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-	<version>2.0.5.1.RELEASE</version>
+	
 </project>

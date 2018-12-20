@@ -280,4 +280,27 @@ public class BasePagingQueryDaoImpl<T> extends BaseQueryDaoImpl<T> implements Ba
 		return query.getResultList();
 	}
 
+	@Override
+	public List queryArrayBySql(String ql, Map<Integer, Object> params, int start, int limit) {
+		Query query = entityManager.createNativeQuery(ql);
+		if (params != null) {
+			for (Integer key : params.keySet()) {
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + key + "：" + value + "]");
+				if (value instanceof Date) {
+					Date date = (Date) value;
+					query.setParameter(key, date, TemporalType.TIMESTAMP);
+				} else if (value instanceof Calendar) {
+					Calendar date = (Calendar) value;
+					query.setParameter(key, date, TemporalType.TIMESTAMP);
+				} else {
+					query.setParameter(key, value);
+				}
+			}
+		}
+		query.setFirstResult(start);
+		query.setMaxResults(limit);
+		return query.getResultList();
+	}
+
 }

@@ -51,6 +51,14 @@ public interface BaseQueryDao<T> {
 	List queryArrayByJpql(String ql,Map<String, Object> params);
 	
 	/**
+	 * 根据查询Sql，带参数，获取数组列表
+	 * @param ql  sql的查询
+	 * @param params 参数
+	 * @return 符合条件的数组列表
+	 */
+	List queryArrayBySql(String ql,Map<Integer, Object> params);
+	
+	/**
 	 * 根据sql和参数获取查询列表
 	 * @param ql 要查询的sql语句
 	 * @param params 绑定参数，为Integer : Object

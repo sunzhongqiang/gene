@@ -537,4 +537,27 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
 	}
 
 
+
+	@Override
+	public List queryArrayBySql(String ql, Map<Integer, Object> params) {
+		Query query =   entityManager.createNativeQuery(ql);
+		if(params!=null){
+			for(Integer key : params.keySet()) {
+				Object value = params.get(key);
+				log.debug("jpql赋值[" + key + "："+ value + "]");
+				if(value instanceof Date){
+					Date date = (Date) value;
+					query.setParameter(key, date ,TemporalType.TIMESTAMP);
+				}else if(value instanceof Calendar){
+					Calendar date = (Calendar) value;
+					query.setParameter(key, date,TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(key, value);
+				}
+			}
+		}
+		return query.getResultList();
+	}
+
+
 }
