@@ -2,99 +2,111 @@ package com.mmk.gene.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.mmk.gene.service.BaseService;
+
 /**
  * 基本服务类的具体实现{@link BaseService}
+ * 
  * @author 孙中强
  *
  * @param <T> 对哪个实体类进行封装管理
  * @param <ID> 实体类所使用的主键类型
  */
-public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T,ID> {
-	
-	private JpaRepository<T,ID> repository;
-	
-	public BaseServiceImpl(JpaRepository<T,ID> repository){
-		this.repository = repository;
-	}
+public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<T, ID> {
 
-	@Override
-	public boolean exists(ID id) {
-		return repository.existsById(id);
-	}
+    private JpaRepository<T, ID> repository;
 
-	@Override
-	public T get(ID id) {
-		return repository.getOne(id);
-	}
+    public BaseServiceImpl(JpaRepository<T, ID> repository) {
+        this.repository = repository;
+    }
 
-	@Override
-	public T find(ID id) {
-		return repository.findById(id).get();
-	}
+    @Override
+    public boolean exists(ID id) {
+        return repository.existsById(id);
+    }
 
-	@Override
-	public T save(T entity) {
-		return repository.save(entity);
-	}
+    @Override
+    public T get(ID id) {
+        return repository.getOne(id);
+    }
 
-	@Transactional
-	@Override
-	public <S extends T> List<S> save(Iterable<S> entities) {
-		return repository.saveAll(entities);
-	}
+    @Override
+    public T find(ID id) {
+        Optional<T> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
+    }
 
-	@Override
-	public void deleteInBatch(Iterable<T> entities) {
-		repository.deleteInBatch(entities);
-		
-	}
+    @Override
+    public T save(T entity) {
+        return repository.save(entity);
+    }
 
-	@Override
-	public void deleteAllInBatch() {
-		repository.deleteAllInBatch();
-	}
+    @Transactional
+    @Override
+    public <S extends T> List<S> save(Iterable<S> entities) {
+        return repository.saveAll(entities);
+    }
 
-	@Override
-	public Iterable<T> findAll() {
-		return repository.findAll();
-	}
+    @Override
+    public void deleteInBatch(Iterable<T> entities) {
+        repository.deleteInBatch(entities);
 
-	@Override
-	public Iterable<T> findAll(Iterable<ID> ids) {
-		return repository.findAllById(ids);
-	}
+    }
 
-	@Override
-	public long count() {
-		return repository.count();
-	}
+    @Override
+    public void deleteAllInBatch() {
+        repository.deleteAllInBatch();
+    }
 
-	@Override
-	public void delete(T entity) {
-		repository.delete(entity);
-		
-	}
+    @Override
+    public Iterable<T> findAll() {
+        return repository.findAll();
+    }
 
-	@Override
-	public void delete(Iterable<? extends T> entities) {
-		repository.deleteAll(entities);
-	}
+    @Override
+    public Iterable<T> findAll(Iterable<ID> ids) {
+        return repository.findAllById(ids);
+    }
 
-	@Override
-	public void deleteAll() {
-		repository.deleteAll();
-	}
+    @Override
+    public long count() {
+        return repository.count();
+    }
 
-	@Override
-	public Page<T> findAll(Pageable pageable) {
-		return repository.findAll(pageable);
-	}
+    @Override
+    public void deleteById(ID id) {
+        repository.deleteById(id);;
+    }
+
+    @Override
+    public void delete(T entity) {
+        repository.delete(entity);
+
+    }
+
+    @Override
+    public void delete(Iterable<? extends T> entities) {
+        repository.deleteAll(entities);
+    }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+
 
 }
