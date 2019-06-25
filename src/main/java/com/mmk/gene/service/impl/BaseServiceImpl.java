@@ -38,10 +38,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     @Override
     public T find(ID id) {
         Optional<T> optional = repository.findById(id);
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        return null;
+        return optional.orElse(null);
     }
 
     @Override
