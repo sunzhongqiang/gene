@@ -60,7 +60,7 @@ public interface BaseService<T, ID> {
     /**
      * 根据主键进行删除数据.
      * 
-     * @param id
+     * @param id 主键
      */
     void deleteById(ID id);
 
