@@ -7,9 +7,11 @@
 * count() 统计数据
 * delete() 删除
 * get() find() 等获取单个实体的方法
-* save() 保存和修改的方法 以及批量的保存的方法
+* boolean	exists(ID id) 判断数据是否存在
+* save() 保存和修改的方法 以及批量的保存和修改的方法
 * findAll() 获取全部数据的方法
 
+> 具体请参加下载下来生成的的javadoc
 
 ## SpringDataQueryDao和SpringDataQueryDaoImpl
 
