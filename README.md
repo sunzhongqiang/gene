@@ -57,6 +57,8 @@ dependencies {
 * delete()
 * findBy*()
 * get()
+
+
 来自SpringDataQueryDao的方法
 * query*() 各种查询方法
 * count*() 各种统计总和的方法
