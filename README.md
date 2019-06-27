@@ -1,5 +1,37 @@
 # gene
-底层代码封装：主要对service层和dao层，以及repository层的常用和通用方法进行封装，方便进行复用，在这里我们主要认识以下几个类：
+底层代码封装：主要对service层和dao层，以及repository层的常用和通用方法进行封装，方便进行复用，在这里我们主要认识以下几个类：BaseService和BaseServiceImpl ,SpringDataQueryDao和SpringDataQueryDaoImpl
+
+## 用法
+
+#### gradle
+```groovy
+maven { url "http://101.200.215.10:8083/repository/maven-public/" }
+
+dependencies {
+    implementation 'com.mmk:gene:2.1.2.RELEASE'
+}
+```
+
+#### maven
+```xml
+<repository>
+  <id>lcdt</id>
+  <name>lcdt repo</name>
+  <url>http://101.200.215.10:8083/repository/maven-public/</url>
+  <releases>
+    <enabled>true</enabled>
+  </releases>
+  <snapshots>
+    <enabled>false</enabled>
+  </snapshots>
+</repository>
+        
+<dependency>
+    <groupId>com.mmk</groupId>
+    <artifactId>gene</artifactId>
+    <version>2.1.2.RELEASE</version>
+</dependency>
+```
 
 ## BaseService和BaseServiceImpl 
 > 主要封装类service层常用的操作接口和实现，一般我们架构中的service接口都需要继承BaseService接口，service实现都需要继承BaseServiceImpl实现，这样就不需要在重复的书写常用的save，get，find，delete接口和实现类；下面具体介绍一下基础service已经定义和实现的接口和方法；
