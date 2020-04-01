@@ -12,13 +12,6 @@ import java.util.Map;
  */
 
 public interface BaseQueryDao<T> {
-    /**
-     * 根据JPQL仅仅获取一个实体.
-     * 
-     * @param jpql 单个查询用的jpql
-     * @return 符合条件的唯一实体，或者符合条件的第一个实体
-     */
-    T getOne(String jpql);
 
     /**
      * 根据JPQL和给定的参数仅仅获取一个实体，如果存在多个符合条件的会只返回第一个.
@@ -27,7 +20,7 @@ public interface BaseQueryDao<T> {
      * @param params jpql绑定参数
      * @return 符合条件的唯一实体，或者符合条件的第一个实体
      */
-    T getOne(String jpql, Map<String, Object> params);
+    T getOneByJpql(String jpql, Map<String, Object> params);
 
     /**
      * 根据参数进行查询符合条件的列表<br> 参数会以and形式组装在where以后，使用字段名作为参数条件.

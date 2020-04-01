@@ -58,17 +58,8 @@ public class BaseQueryDaoImpl<T> implements BaseQueryDao<T> {
     }
 
 
-
     @Override
-    public T getOne(String jpql) {
-        TypedQuery<T> query = entityManager.createQuery(jpql, this.persistentClass);
-        query.setMaxResults(1);
-        List<T> result = query.getResultList();
-        return result.isEmpty() ? null : result.get(0);
-    }
-
-    @Override
-    public T getOne(String jpql, Map<String, Object> params) {
+    public T getOneByJpql(String jpql, Map<String, Object> params) {
         TypedQuery<T> query = entityManager.createQuery(jpql, this.persistentClass);
         query.setMaxResults(1);
         if (params != null) {
